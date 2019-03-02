@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import SearchMenu from '../components/SearchMenu';
 import axios from '../axios-setup';
 import debounce from 'lodash.debounce'
+import RepoList from "../components/Repos/RepoList";
 
 class GithubSearcher extends Component {
     state = {
@@ -23,9 +24,7 @@ class GithubSearcher extends Component {
         return (
             <React.Fragment>
                 <SearchMenu onInputRepoNameChange={event => this.searchRepositories(event.target.value)}/>
-                {this.state.repositories.map(repo => (
-                    <div key={repo.id}>{repo.name}</div>
-                ))}
+                <RepoList repositories={this.state.repositories}/>
             </React.Fragment>
         );
     }
