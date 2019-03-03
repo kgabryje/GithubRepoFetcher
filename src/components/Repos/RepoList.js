@@ -12,12 +12,6 @@ const RepoList = props => (
                 {repo.full_name}
             </RepoItem>
         ))}
-        <Icon fontSize={'large'} className={classes.prev}>
-            arrow_back_ios
-        </Icon>
-        <Icon fontSize={'large'} className={classes.next}>
-            arrow_forward_ios
-        </Icon>
     </React.Fragment>
 );
 

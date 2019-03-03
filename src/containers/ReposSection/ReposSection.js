@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {CircularProgress} from "@material-ui/core";
 import * as actions from "../../store/actions/repoList";
 import {connect} from "react-redux";
 import RepoList from "../../components/Repos/RepoList";
-import classes from './ReposSection.module.css';
+import classes from './ReposSection.module.scss';
+import Icon from "@material-ui/core/Icon";
 
 class ReposSection extends Component {
 
@@ -17,16 +17,27 @@ class ReposSection extends Component {
     render() {
         return (
             <div className={classes.ReposSection}>
-                    {
-                        this.props.error ? 'Something went wrong! :(' :
-                            this.props.repositories.length === 0 && !this.props.loading ? 'Start typing to search for repos' :
-                                <RepoList repositories={this.props.repositories}/>
-                    }
-                    {
-                        this.props.loading ? <CircularProgress/> :
-                            (this.props.nextPage &&
-                                <div onClick={() => this.props.onLoadPage(this.props.nextPage)}>Load more</div>)
-                    }
+                {
+                    this.props.error ? 'Something went wrong! :(' :
+                        this.props.repositories.length === 0 && !this.props.loading ? 'Start typing to search for repos' :
+                            (
+                                <div>
+                                    <div>
+                                        <RepoList repositories={this.props.repositories}/>
+                                    </div>
+                                    <div className={classes.prev}>
+                                        <Icon fontSize={'large'}>
+                                            arrow_back_ios
+                                        </Icon>
+                                    </div>
+                                    <div className={classes.next}>
+                                        <Icon fontSize={'large'}>
+                                            arrow_forward_ios
+                                        </Icon>
+                                    </div>
+                                </div>
+                            )
+                }
             </div>
         );
     }

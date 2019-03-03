@@ -1,0 +1,31 @@
+.ReposSection {
+  padding: 1em;
+  max-width: 60%;
+  margin: 0 auto;
+  min-width: 700px;
+}
+
+.arrowButton {
+  color: black;
+  padding: 1em;
+  position: fixed;
+  top: 40%;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+}
+
+.arrowButton:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.prev {
+  @extend .arrowButton;
+  left: 4em;
+}
+
+.next {
+  @extend .arrowButton;
+  right: 4em;
+}

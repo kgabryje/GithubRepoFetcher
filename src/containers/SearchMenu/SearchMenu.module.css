@@ -10,7 +10,7 @@
     position: sticky;
     top: 2em;
     z-index: 1000;
-    min-width: 400px;
+    min-width: 600px;
     box-sizing: border-box;
 }
 
