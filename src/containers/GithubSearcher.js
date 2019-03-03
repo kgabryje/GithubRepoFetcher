@@ -3,32 +3,73 @@ import SearchMenu from '../components/SearchMenu';
 import axios from '../axios-setup';
 import debounce from 'lodash.debounce'
 import RepoList from "../components/Repos/RepoList";
+import {CircularProgress} from "@material-ui/core";
 
 class GithubSearcher extends Component {
     state = {
         userInput: '',
         repositories: [],
-        error: null
+        nextPage: null,
+        error: null,
+        loading: false
     };
 
     userInputHandler = debounce(userInput => {
         this.setState({
             userInput: userInput
         });
-        this.searchRepositories();
-    });
+        this.loadRepositories();
+    }, 200);
 
-    searchRepositories = () => this.state.userInput.length > 0 &&
-        axios.get(`search/repositories?q=${this.state.userInput}`)
-            .then(response =>
+    loadRepositories = async (isLoadNextPage = false) => {
+        this.setState({loading: true});
+        await (isLoadNextPage ? this.loadNextPage() : this.searchReposByQuery(this.state.userInput));
+        this.setState({loading: false});
+    };
+
+    searchReposByQuery = async (queryString) => {
+        const repoSearchUrl = `https://api.github.com/search/repositories?q=${queryString}`;
+        const response = await axios.get(repoSearchUrl)
+            .catch(error =>
                 this.setState({
-                    repositories: response.data.items
+                    error: error,
+                    nextPage: null
                 })
-            )
-            .catch(error => {
-                console.log(error);
-                this.setState({error: error});
-            });
+            );
+
+        const nextPageUrl = this.findNextPageUrl(response.headers.link);
+
+        this.setState({
+            error: null,
+            repositories: response.data.items,
+            nextPage: nextPageUrl
+        });
+    };
+
+    loadNextPage = async () => {
+        const response = await axios.get(this.state.nextPage)
+            .catch(error =>
+                this.setState({
+                    error: error,
+                    nextPage: null
+                })
+            );
+
+        const nextPageUrl = this.findNextPageUrl(response.headers.link);
+
+        this.setState(prevState => ({
+            error: null,
+            repositories: prevState.repositories.concat(response.data.items),
+            nextPage: nextPageUrl
+        }));
+    };
+
+    findNextPageUrl = (linkHeader) =>
+        linkHeader.split(', ')
+            .find(link => link.split('; rel=')[1] === "\"next\"")
+            .split(';')[0]
+            .slice(1, -1);
+
 
     render() {
         return (
@@ -38,8 +79,14 @@ class GithubSearcher extends Component {
                     this.state.error ? 'Something went wrong! :(' :
                         this.state.repositories.length === 0 ? 'Start typing to search for repos' :
                             <RepoList repositories={this.state.repositories}
-                                      onRefreshClicked={this.searchRepositories}/>
+                                      onRefreshClicked={() => this.loadRepositories(false)}/>
                 }
+                {
+                    this.state.loading ? <CircularProgress/> :
+                        (this.state.nextPage &&
+                            <div onClick={() => this.loadRepositories(true)}>Load more</div>)
+                }
+
             </React.Fragment>
         );
     }
