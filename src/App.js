@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GithubSearcher from "./containers/GithubSearcher";
+import GithubSearcher from "./components/GithubSearcher";
 
 class App extends Component {
   render() {
