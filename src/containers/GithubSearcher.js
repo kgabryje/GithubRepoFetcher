@@ -13,6 +13,7 @@ class GithubSearcher extends Component {
         userInput: '',
         repositories: [],
         nextPage: null,
+        sortBy: 'score',
         error: null,
         loading: false
     };
@@ -24,20 +25,32 @@ class GithubSearcher extends Component {
         );
     }, 200);
 
-    loadRepositories = async (isLoadNextPage = false) => {
+    sortByHandler = sortBy =>
+        this.setState({sortBy: sortBy},
+            () => this.state.userInput.length > 0 && this.loadRepositories());
+
+    loadRepositories = (isLoadNextPage = false) => {
         this.setState({loading: true});
-        const response = await (isLoadNextPage ? this.loadNextPage() : this.searchReposByQuery(this.state.userInput))
+        let repoLoadPromise;
+        if (isLoadNextPage) {
+            repoLoadPromise = this.loadNextPage();
+        } else {
+            const searchQuery = `${this.state.userInput} sort:${this.state.sortBy}`;
+            repoLoadPromise = this.searchReposByQuery(searchQuery);
+        }
+        repoLoadPromise
+            .then(response =>
+                this.setState({
+                    repositories: response.repositories,
+                    nextPage: response.nextPage,
+                    error: null,
+                    loading: false
+                }))
             .catch(error => this.setState({
                 nextPage: null,
                 error: error,
                 loading: false
             }));
-        this.setState({
-            repositories: response.repositories,
-            nextPage: response.nextPage,
-            error: null,
-            loading: false
-        });
     };
 
     searchReposByQuery = async (queryString) => {
@@ -68,21 +81,29 @@ class GithubSearcher extends Component {
     render() {
         return (
             <React.Fragment>
-                <SearchMenu onInputRepoNameChange={event => this.userInputHandler(event.target.value)}/>
-                <Button variant="contained" color="primary" onClick={() => this.loadRepositories(false)}>
+                <SearchMenu onInputChange={event => this.userInputHandler(event.target.value)}
+                            selectInitialValue={this.state.sortBy}
+                            onSelectChange={event => this.sortByHandler(event.target.value)}/>
+                <Button style={{display: 'block'}}
+                        variant="contained"
+                        color="primary"
+                        onClick={() => this.loadRepositories(false)}>
                     Refresh
                 </Button>
-                {
-                    this.state.error ? 'Something went wrong! :(' :
-                        this.state.repositories.length === 0 && !this.state.loading ? 'Start typing to search for repos' :
-                            <RepoList repositories={this.state.repositories}/>
-                }
-                {
-                    this.state.loading ? <CircularProgress/> :
-                        (this.state.nextPage &&
-                            <div onClick={() => this.loadRepositories(true)}>Load more</div>)
-                }
-
+                <div>
+                    {
+                        this.state.error ? 'Something went wrong! :(' :
+                            this.state.repositories.length === 0 && !this.state.loading ? 'Start typing to search for repos' :
+                                <RepoList repositories={this.state.repositories}/>
+                    }
+                </div>
+                <div>
+                    {
+                        this.state.loading ? <CircularProgress/> :
+                            (this.state.nextPage &&
+                                <div onClick={() => this.loadRepositories(true)}>Load more</div>)
+                    }
+                </div>
             </React.Fragment>
         );
     }
