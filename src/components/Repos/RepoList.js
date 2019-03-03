@@ -1,28 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RepoItem from "./RepoItem/RepoItem";
-import {Button} from "@material-ui/core";
+import classes from './RepoList.module.css';
 
 const RepoList = props => (
-    <React.Fragment>
-        <Button variant="contained" color="primary" onClick={props.onRefreshClicked}>
-            Refresh
-        </Button>
+    <div className={classes.RepoList}>
         {props.repositories.map(repo => (
             <RepoItem key={repo.id}
-                      name={repo.name}
-                      owner={repo.owner}
-                      starsNumber={repo.stargazers_count}
-                      primaryLanguage={repo.language}>
+                      repository={repo}>
                 {repo.full_name}
             </RepoItem>
         ))}
-    </React.Fragment>
+    </div>
 );
 
 RepoList.propTypes = {
-    repositories: PropTypes.array,
-    onRefreshClicked: PropTypes.func
+    repositories: PropTypes.array
 };
 
 export default RepoList;
