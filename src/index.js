@@ -5,11 +5,13 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import repoListReducer from './store/reducers/repoList';
+import searchMenuReducer from './store/reducers/searchMenu';
 import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 
 const reducer = combineReducers({
-    repoList: repoListReducer
+    repoList: repoListReducer,
+    search: searchMenuReducer
 });
 
 const store = createStore(reducer, compose(
