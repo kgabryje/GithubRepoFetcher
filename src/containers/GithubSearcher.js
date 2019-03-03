@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import SearchMenu from '../components/SearchMenu';
+import SearchMenu from '../components/SearchMenu/SearchMenu';
 import axios from '../axios-setup';
 import debounce from 'lodash.debounce'
 import RepoList from "../components/Repos/RepoList";
