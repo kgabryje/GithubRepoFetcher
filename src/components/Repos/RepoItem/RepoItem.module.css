@@ -1,0 +1,14 @@
+.Summary {
+    align-items: center;
+}
+
+.Summary > div {
+    flex-basis: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+}
+
+.chip {
+    max-width: 120px;
+}
