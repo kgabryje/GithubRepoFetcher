@@ -6,10 +6,10 @@ import RepoList from "../../components/Repos/RepoList";
 
 class ReposSection extends Component {
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.userInput.length > 0 &&
-            (this.props.userInput !== prevProps.userInput || this.props.sortBy !== prevProps.sortBy)) {
-            this.props.onSearchByQuery(`${this.props.userInput} sort:${this.props.sortBy}`)
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        if (nextProps.userInput.length > 0 &&
+            (this.props.userInput !== nextProps.userInput || this.props.sortBy !== nextProps.sortBy)) {
+            this.props.onSearchByQuery(`${nextProps.userInput} sort:${nextProps.sortBy}`)
         }
     }
 
