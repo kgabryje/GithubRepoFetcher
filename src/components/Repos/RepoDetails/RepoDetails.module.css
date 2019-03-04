@@ -1,7 +1,15 @@
 .RepoDetails {
     display: grid;
+    justify-items: center;
+    grid-row-gap: 1em;
 }
 
 .RepoDetails > * {
     width: fit-content;
+}
+
+.AdditionalInfo {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-column-gap: 1em;
 }
