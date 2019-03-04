@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import {FormControl, Input, Select} from "@material-ui/core";
-import MenuItem from "@material-ui/core/MenuItem";
-import * as searchActions from "../../store/actions/searchMenu";
-import * as repoActions from "../../store/actions/repoList";
-import {connect} from "react-redux";
-import debounce from "lodash.debounce";
+import {FormControl, Input, Select} from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import * as searchActions from '../../store/actions/searchMenu';
+import * as repoActions from '../../store/actions/repoList';
+import {connect} from 'react-redux';
+import debounce from 'lodash.debounce';
 import classes from './SearchMenu.module.scss';
 import classNames from 'classnames';
-import Icon from "@material-ui/core/Icon";
+import Icon from '@material-ui/core/Icon';
 
 class SearchMenu extends Component {
     userInputHandler = debounce(userInput => {

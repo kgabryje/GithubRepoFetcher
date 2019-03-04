@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import RepoItem from "./RepoItem/RepoItem";
-import {CircularProgress} from "@material-ui/core";
-import RepoDetails from "./RepoDetails/RepoDetails";
+import RepoItem from './RepoItem/RepoItem';
+import {CircularProgress} from '@material-ui/core';
+import RepoDetails from './RepoDetails/RepoDetails';
 import classes from './RepoList.module.scss'
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 
 const RepoList = props => (
     <React.Fragment>
@@ -14,7 +14,10 @@ const RepoList = props => (
                 <div className={classes.DetailsContainer}>
                     <RepoDetails repository={repo}/>
                     <div className={classes.RefreshButton}>
-                        <Button color="secondary" onClick={() => props.refreshClicked(repo)}>
+                        <a href={repo.html_url} target='_blank' rel="noopener noreferrer" style={{textDecoration: 'none'}}>
+                            <Button color='secondary'>Go to repo</Button>
+                        </a>
+                        <Button color='secondary' onClick={() => props.refreshClicked(repo)}>
                             Refresh
                         </Button>
                     </div>

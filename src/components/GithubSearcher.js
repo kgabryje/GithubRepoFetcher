@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchMenu from '../containers/SearchMenu/SearchMenu';
-import ReposSection from "../containers/ReposSection/ReposSection";
+import ReposSection from '../containers/ReposSection/ReposSection';
 import classes from './GithubSearcher.module.css';
 
 const githubSearcher = () => (

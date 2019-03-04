@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classes from './RepoDetails.module.css';
-import {Chip, Icon, Tooltip} from "@material-ui/core";
+import {Chip, Icon, Tooltip} from '@material-ui/core';
 
 const RepoDetails = props => (
     <div className={classes.RepoDetails}>

@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import repoListReducer from './store/reducers/repoList';
 import searchMenuReducer from './store/reducers/searchMenu';
 import thunk from 'redux-thunk';
-import {Provider} from "react-redux";
+import {Provider} from 'react-redux';
 
 const reducer = combineReducers({
     repoList: repoListReducer,

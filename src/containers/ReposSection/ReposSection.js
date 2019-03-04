@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import * as actions from "../../store/actions/repoList";
-import {connect} from "react-redux";
-import RepoList from "../../components/Repos/RepoList";
+import * as actions from '../../store/actions/repoList';
+import {connect} from 'react-redux';
+import RepoList from '../../components/Repos/RepoList';
 import classes from './ReposSection.module.scss';
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class ReposSection extends Component {
 
