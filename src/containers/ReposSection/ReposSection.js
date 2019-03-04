@@ -3,8 +3,6 @@ import * as actions from "../../store/actions/repoList";
 import {connect} from "react-redux";
 import RepoList from "../../components/Repos/RepoList";
 import classes from './ReposSection.module.scss';
-import Icon from "@material-ui/core/Icon";
-import classNames from 'classnames';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 class ReposSection extends Component {
@@ -16,57 +14,16 @@ class ReposSection extends Component {
         }
     }
 
-    hasPrevPage = () => this.props.page > 1;
-
-    hasNextPage = () => !!this.props.nextPage;
-
-    prevPageHandler = () => {
-        const query = `${this.props.userInput} sort:${this.props.sortBy}`;
-        this.props.loadPage(query, this.props.page - 1);
-    };
-
-    nextPageHandler = () => {
-        const query = `${this.props.userInput} sort:${this.props.sortBy}`;
-        this.props.loadPage(query, this.props.page + 1);
-    };
-
     refreshRepoHandler = repositoryToRefresh => {
         this.props.refreshRepo(this.props.repositories, repositoryToRefresh);
     };
 
     render() {
-        const prevButtonClasses = classNames(
-            classes.prev,
-            {
-                [classes.disabled]: !this.hasPrevPage()
-            }
-        );
-        const nextButtonClasses = classNames(
-            classes.next,
-            {
-                [classes.disabled]: !this.hasNextPage()
-            }
-        );
-
         const reposSectionBody = (
             <div>
-                <div>
-                    <RepoList repositories={this.props.repositories}
-                              refreshClicked={this.refreshRepoHandler}
-                              refreshingReposIds={this.props.refreshingRepositoriesIds}/>
-                </div>
-                <div onClick={this.prevPageHandler}
-                     className={prevButtonClasses}>
-                    <Icon style={{paddingLeft: 8, paddingTop: 1}} fontSize={'large'}>
-                        arrow_back_ios
-                    </Icon>
-                </div>
-                <div onClick={this.nextPageHandler}
-                     className={nextButtonClasses}>
-                    <Icon style={{paddingLeft: 3, paddingTop: 1}} fontSize={'large'}>
-                        arrow_forward_ios
-                    </Icon>
-                </div>
+                <RepoList repositories={this.props.repositories}
+                          refreshClicked={this.refreshRepoHandler}
+                          refreshingReposIds={this.props.refreshingRepositoriesIds}/>
             </div>
         );
 
@@ -86,8 +43,6 @@ class ReposSection extends Component {
 
 const mapStateToProps = state => ({
     repositories: state.repoList.repositories,
-    page: state.repoList.page,
-    nextPage: state.repoList.nextPage,
     error: state.repoList.error,
     loading: state.repoList.loading,
     refreshingRepositoriesIds: state.repoList.reloadingReposIds,
@@ -98,7 +53,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     searchByQuery: queryString => dispatch(actions.loadPage(queryString)),
-    loadPage: (queryString, pageNumber) => dispatch(actions.loadPage(queryString, pageNumber)),
     refreshRepo: (repositories, repoFullName) => dispatch(actions.refreshRepo(repositories, repoFullName))
 });
 

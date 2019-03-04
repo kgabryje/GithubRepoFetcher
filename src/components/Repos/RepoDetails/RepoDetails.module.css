@@ -1,0 +1,7 @@
+.RepoDetails {
+    display: grid;
+}
+
+.RepoDetails > * {
+    width: fit-content;
+}

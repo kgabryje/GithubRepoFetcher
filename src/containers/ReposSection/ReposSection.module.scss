@@ -9,34 +9,3 @@
   z-index: 1000;
   top: 40%;
 }
-
-.arrowButton {
-  color: black;
-  padding: 1em;
-  position: fixed;
-  top: 40%;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-}
-
-.arrowButton:hover {
-  background-color: rgba(0, 0, 0, 0.3);
-}
-
-.prev {
-  @extend .arrowButton;
-  left: 4em;
-}
-
-.next {
-  @extend .arrowButton;
-  right: 4em;
-}
-
-.disabled {
-  pointer-events: none;
-  cursor: not-allowed;
-  color: gray;
-}

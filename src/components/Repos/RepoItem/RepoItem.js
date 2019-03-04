@@ -6,31 +6,37 @@ import {
     ExpansionPanelDetails,
     ExpansionPanelSummary,
     Icon,
-} from "@material-ui/core";
+    Tooltip
+} from '@material-ui/core';
 import classes from './RepoItem.module.css';
-import Chip from "@material-ui/core/Chip";
+import Chip from '@material-ui/core/Chip';
 
 const RepoItem = props => (
     <ExpansionPanel>
         <ExpansionPanelSummary classes={{content: classes.Summary}}>
 
-            <div className={classes.textField}>{props.repository.name}</div>
+            <div className={classes.textField}>
+                {props.repository.name}
+            </div>
 
-            <div  className={classes.textField} style={{display: 'flex', marginRight: 'auto'}}>
+            <div className={classes.textField} style={{display: 'flex', marginRight: 'auto'}}>
                 <Avatar src={props.repository.owner.avatar_url}/>
                 <span style={{paddingLeft: '10px'}}>{props.repository.owner.login}</span>
             </div>
 
             <div style={{marginLeft: 'auto'}} className={classes.chip}>
-                <Chip icon={<Icon>star</Icon>}
-                      label={props.repository.stargazers_count}/>
+                <Tooltip title='Stargazers'>
+                    <Chip icon={<Icon>star</Icon>}
+                          label={props.repository.stargazers_count}/>
+                </Tooltip>
             </div>
 
             <div className={classes.chip}>
                 {props.repository.language &&
-                <Chip label={props.repository.language}/>}
+                <Tooltip title='Primary language'>
+                    <Chip label={props.repository.language}/>
+                </Tooltip>}
             </div>
-
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
             {props.children}

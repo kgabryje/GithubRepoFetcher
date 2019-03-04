@@ -1,0 +1,13 @@
+.DetailsContainer {
+  display: grid;
+  width: 100%;
+}
+
+.RefreshButton {
+  justify-self: flex-end;
+}
+
+.Progress {
+  position: absolute;
+  left: 45%;
+}
