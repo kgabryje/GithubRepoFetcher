@@ -5,7 +5,8 @@ const initialState = {
     page: 1,
     nextPage: null,
     error: null,
-    loading: false
+    loading: false,
+    reloadingReposIds: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -16,6 +17,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.SET_NEXT_PAGE: return {...state, nextPage: action.payload};
         case actionTypes.LOAD_REPOS_FAILED: return {...state, error: action.payload};
         case actionTypes.LOAD_REPOS_SUCCESS: return {...state, error: null};
+        case actionTypes.RELOADING_REPO: return {...state, reloadingReposIds: state.reloadingReposIds.concat(action.payload)};
+        case actionTypes.RELOADING_REPO_FINISHED: {
+            return {...state, reloadingReposIds: state.reloadingReposIds.filter(id => id !== action.payload)}
+        }
         default: return state;
     }
 };

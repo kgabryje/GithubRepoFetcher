@@ -33,6 +33,16 @@ export const loading = isLoading => ({
     payload: isLoading
 });
 
+export const reloadingRepo = repoId => ({
+    type: actionTypes.RELOADING_REPO,
+    payload: repoId
+});
+
+export const reloadingRepoFinished = repoId => ({
+    type: actionTypes.RELOADING_REPO_FINISHED,
+    payload: repoId
+});
+
 export const loadPage = (query, pageNumber = 1) => dispatch => {
     const repoSearchUrl = `${baseUrl}/search/repositories?q=${query}&page=${pageNumber}`;
 
@@ -48,5 +58,28 @@ export const loadPage = (query, pageNumber = 1) => dispatch => {
         .catch(error => {
             dispatch(loadReposFailed(error));
             dispatch(loading(false))
+        });
+};
+
+export const refreshRepo = (repoList, repoToReload) => dispatch => {
+    const repoUrl = `${baseUrl}/repos/${repoToReload.full_name}`;
+
+    dispatch(reloadingRepo(repoToReload.id));
+    axios.get(repoUrl)
+        .then(response => {
+            const refreshedRepo = response.data;
+            const refreshedRepoList = repoList.map(repository => {
+                if (repository.id !== refreshedRepo.id) {
+                    return {...repository};
+                }
+                return refreshedRepo;
+            });
+            dispatch(setRepos(refreshedRepoList));
+            dispatch(loadReposSuccess());
+            dispatch(reloadingRepoFinished(refreshedRepo.id))
+        })
+        .catch(error => {
+            dispatch(loadReposFailed(error));
+            dispatch(reloadingRepo(repoToReload.id));
         });
 };

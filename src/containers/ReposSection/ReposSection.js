@@ -18,10 +18,7 @@ class ReposSection extends Component {
 
     hasPrevPage = () => this.props.page > 1;
 
-    hasNextPage = () => {
-        console.log(this.props.nextPage);
-        return !!this.props.nextPage;
-    };
+    hasNextPage = () => !!this.props.nextPage;
 
     prevPageHandler = () => {
         const query = `${this.props.userInput} sort:${this.props.sortBy}`;
@@ -31,6 +28,10 @@ class ReposSection extends Component {
     nextPageHandler = () => {
         const query = `${this.props.userInput} sort:${this.props.sortBy}`;
         this.props.loadPage(query, this.props.page + 1);
+    };
+
+    refreshRepoHandler = repositoryToRefresh => {
+        this.props.refreshRepo(this.props.repositories, repositoryToRefresh);
     };
 
     render() {
@@ -50,7 +51,9 @@ class ReposSection extends Component {
         const reposSectionBody = (
             <div>
                 <div>
-                    <RepoList repositories={this.props.repositories}/>
+                    <RepoList repositories={this.props.repositories}
+                              refreshClicked={this.refreshRepoHandler}
+                              refreshingReposIds={this.props.refreshingRepositoriesIds}/>
                 </div>
                 <div onClick={this.prevPageHandler}
                      className={prevButtonClasses}>
@@ -87,6 +90,7 @@ const mapStateToProps = state => ({
     nextPage: state.repoList.nextPage,
     error: state.repoList.error,
     loading: state.repoList.loading,
+    refreshingRepositoriesIds: state.repoList.reloadingReposIds,
 
     userInput: state.search.userInput,
     sortBy: state.search.sortBy
@@ -94,7 +98,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     searchByQuery: queryString => dispatch(actions.loadPage(queryString)),
-    loadPage: (queryString, pageNumber) => dispatch(actions.loadPage(queryString, pageNumber))
+    loadPage: (queryString, pageNumber) => dispatch(actions.loadPage(queryString, pageNumber)),
+    refreshRepo: (repositories, repoFullName) => dispatch(actions.refreshRepo(repositories, repoFullName))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReposSection);
