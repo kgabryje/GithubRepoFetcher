@@ -1,8 +1,13 @@
 .ReposSection {
-  padding: 1em;
   max-width: 60%;
-  margin: 0 auto;
+  margin: 2em auto;
   min-width: 700px;
+}
+
+.progress {
+  position: absolute;
+  z-index: 1000;
+  top: 40%;
 }
 
 .arrowButton {
@@ -13,7 +18,7 @@
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  text-align: center;
+  cursor: pointer;
 }
 
 .arrowButton:hover {
@@ -28,4 +33,10 @@
 .next {
   @extend .arrowButton;
   right: 4em;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  color: gray;
 }

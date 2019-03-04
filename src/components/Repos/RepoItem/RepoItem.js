@@ -14,14 +14,14 @@ const RepoItem = props => (
     <ExpansionPanel>
         <ExpansionPanelSummary classes={{content: classes.Summary}}>
 
-            <div>{props.repository.name}</div>
+            <div className={classes.textField}>{props.repository.name}</div>
 
-            <div style={{display: 'flex'}}>
+            <div  className={classes.textField} style={{display: 'flex', marginRight: 'auto'}}>
                 <Avatar src={props.repository.owner.avatar_url}/>
                 <span style={{paddingLeft: '10px'}}>{props.repository.owner.login}</span>
             </div>
 
-            <div className={classes.chip}>
+            <div style={{marginLeft: 'auto'}} className={classes.chip}>
                 <Chip icon={<Icon>star</Icon>}
                       label={props.repository.stargazers_count}/>
             </div>

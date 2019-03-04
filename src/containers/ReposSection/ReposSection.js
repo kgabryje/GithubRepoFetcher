@@ -4,39 +4,77 @@ import {connect} from "react-redux";
 import RepoList from "../../components/Repos/RepoList";
 import classes from './ReposSection.module.scss';
 import Icon from "@material-ui/core/Icon";
+import classNames from 'classnames';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 class ReposSection extends Component {
 
     componentWillUpdate(nextProps, nextState, nextContext) {
         if (nextProps.userInput.length > 0 &&
             (this.props.userInput !== nextProps.userInput || this.props.sortBy !== nextProps.sortBy)) {
-            this.props.onSearchByQuery(`${nextProps.userInput} sort:${nextProps.sortBy}`)
+            this.props.searchByQuery(`${nextProps.userInput} sort:${nextProps.sortBy}`)
         }
     }
 
+    hasPrevPage = () => this.props.page > 1;
+
+    hasNextPage = () => {
+        console.log(this.props.nextPage);
+        return !!this.props.nextPage;
+    };
+
+    prevPageHandler = () => {
+        const query = `${this.props.userInput} sort:${this.props.sortBy}`;
+        this.props.loadPage(query, this.props.page - 1);
+    };
+
+    nextPageHandler = () => {
+        const query = `${this.props.userInput} sort:${this.props.sortBy}`;
+        this.props.loadPage(query, this.props.page + 1);
+    };
+
     render() {
+        const prevButtonClasses = classNames(
+            classes.prev,
+            {
+                [classes.disabled]: !this.hasPrevPage()
+            }
+        );
+        const nextButtonClasses = classNames(
+            classes.next,
+            {
+                [classes.disabled]: !this.hasNextPage()
+            }
+        );
+
+        const reposSectionBody = (
+            <div>
+                <div>
+                    <RepoList repositories={this.props.repositories}/>
+                </div>
+                <div onClick={this.prevPageHandler}
+                     className={prevButtonClasses}>
+                    <Icon style={{paddingLeft: 8, paddingTop: 1}} fontSize={'large'}>
+                        arrow_back_ios
+                    </Icon>
+                </div>
+                <div onClick={this.nextPageHandler}
+                     className={nextButtonClasses}>
+                    <Icon style={{paddingLeft: 3, paddingTop: 1}} fontSize={'large'}>
+                        arrow_forward_ios
+                    </Icon>
+                </div>
+            </div>
+        );
+
         return (
             <div className={classes.ReposSection}>
                 {
-                    this.props.error ? 'Something went wrong! :(' :
-                        this.props.repositories.length === 0 && !this.props.loading ? 'Start typing to search for repos' :
-                            (
-                                <div>
-                                    <div>
-                                        <RepoList repositories={this.props.repositories}/>
-                                    </div>
-                                    <div className={classes.prev}>
-                                        <Icon fontSize={'large'}>
-                                            arrow_back_ios
-                                        </Icon>
-                                    </div>
-                                    <div className={classes.next}>
-                                        <Icon fontSize={'large'}>
-                                            arrow_forward_ios
-                                        </Icon>
-                                    </div>
-                                </div>
-                            )
+                    this.props.userInput.length === 0 ? 'Start typing to search for repos' :
+                        this.props.error ? 'Something went wrong! :(' :
+                            this.props.repositories.length === 0 && !this.props.loading ? 'No repositories found' :
+                                this.props.loading ? (<CircularProgress size={50} className={classes.progress}/>) :
+                                    reposSectionBody
                 }
             </div>
         );
@@ -45,6 +83,7 @@ class ReposSection extends Component {
 
 const mapStateToProps = state => ({
     repositories: state.repoList.repositories,
+    page: state.repoList.page,
     nextPage: state.repoList.nextPage,
     error: state.repoList.error,
     loading: state.repoList.loading,
@@ -54,8 +93,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onSearchByQuery: queryString => dispatch(actions.loadPage(queryString)),
-    onLoadPage: (queryString, pageNumber) => dispatch(actions.loadPage(queryString, pageNumber))
+    searchByQuery: queryString => dispatch(actions.loadPage(queryString)),
+    loadPage: (queryString, pageNumber) => dispatch(actions.loadPage(queryString, pageNumber))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReposSection);

@@ -3,12 +3,22 @@
 }
 
 .Summary > div {
+    box-sizing: border-box;
     flex-basis: 25%;
     overflow: hidden;
     text-overflow: ellipsis;
     align-items: center;
 }
 
+.Summary > div:first-child {
+    padding-left: 32px;
+}
+
+.textField {
+    max-width: 250px;
+    text-align: left;
+}
+
 .chip {
-    max-width: 120px;
+    max-width: 150px;
 }

@@ -1,12 +1,17 @@
 import axios from '../../axios-setup';
 import * as actionTypes from './actionTypes';
-import { findNextPageUrl } from '../utility';
+import {findNextPageUrl} from '../utility';
 
 const baseUrl = 'https://api.github.com';
 
 export const setRepos = repositories => ({
     type: actionTypes.SET_REPOS,
     payload: repositories
+});
+
+export const setPage = nextPageUrl => ({
+    type: actionTypes.SET_PAGE,
+    payload: nextPageUrl
 });
 
 export const setNextPage = nextPageUrl => ({
@@ -17,6 +22,10 @@ export const setNextPage = nextPageUrl => ({
 export const loadReposFailed = error => ({
     type: actionTypes.LOAD_REPOS_FAILED,
     payload: error
+});
+
+export const loadReposSuccess = () => ({
+    type: actionTypes.LOAD_REPOS_SUCCESS
 });
 
 export const loading = isLoading => ({
@@ -31,8 +40,10 @@ export const loadPage = (query, pageNumber = 1) => dispatch => {
     axios.get(repoSearchUrl)
         .then(response => {
             dispatch(setRepos(response.data.items));
-            dispatch(setNextPage(findNextPageUrl(response.headers.link)));
+            dispatch(setPage(pageNumber));
+            dispatch(setNextPage(response.headers.link ? findNextPageUrl(response.headers.link) : null));
             dispatch(loading(false));
+            dispatch(loadReposSuccess());
         })
         .catch(error => {
             dispatch(loadReposFailed(error));
