@@ -4,7 +4,7 @@ import ReposSection from '../containers/ReposSection/ReposSection';
 import classes from './GithubSearcher.module.css';
 
 const githubSearcher = () => (
-    <div className={classes.content}>
+    <div className={classes.GithubSearcher}>
         <SearchMenu/>
         <ReposSection/>
     </div>

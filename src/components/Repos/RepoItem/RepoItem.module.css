@@ -14,11 +14,11 @@
     padding-left: 32px;
 }
 
-.textField {
+.TextField {
     max-width: 250px;
     text-align: left;
 }
 
-.chip {
+.Chip {
     max-width: 150px;
 }

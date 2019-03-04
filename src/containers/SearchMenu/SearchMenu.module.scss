@@ -1,17 +1,17 @@
-.searchMenu {
+.SearchMenu {
     display: flex;
     align-items: center;
-    padding: 1em;
     -webkit-box-shadow: 0 10px 40px -10px rgba(0,0,0,0.60);
     -moz-box-shadow: 0 10px 40px -10px rgba(0,0,0,0.60);
     box-shadow: 0 10px 40px -10px rgba(0,0,0,0.60);
     border-radius: 4px;
+    position: sticky;
     left: 0;
     right: 0;
-    margin: 2em auto;
-    background: white;
-    position: sticky;
     top: 2em;
+    margin: 2em auto;
+    padding: 1em;
+    background: white;
     z-index: 1000;
     max-width: 60%;
     min-width: 700px;

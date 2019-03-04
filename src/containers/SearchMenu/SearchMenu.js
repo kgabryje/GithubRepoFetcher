@@ -42,7 +42,7 @@ class SearchMenu extends Component {
             }
         );
         return (
-            <div className={classes.searchMenu}>
+            <div className={classes.SearchMenu}>
                 <div onClick={this.prevPageHandler}
                      className={prevButtonClasses}>
                     <Icon style={{paddingLeft: 8, paddingTop: 1}} fontSize={'large'}>

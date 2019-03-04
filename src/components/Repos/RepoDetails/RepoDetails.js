@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classes from './RepoDetails.module.css';
-import {Chip, Icon, Tooltip, Typography} from '@material-ui/core';
+import {Chip, Icon, Tooltip} from '@material-ui/core';
 import ForkIcon from './ForkIcon';
 import SvgIcon from '@material-ui/core/SvgIcon';
 

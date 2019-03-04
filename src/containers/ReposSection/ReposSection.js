@@ -33,7 +33,7 @@ class ReposSection extends Component {
                     this.props.userInput.length === 0 ? 'Start typing to search for repos' :
                         this.props.error ? 'Something went wrong! :(' :
                             this.props.repositories.length === 0 && !this.props.loading ? 'No repositories found' :
-                                this.props.loading ? (<CircularProgress size={50} className={classes.progress}/>) :
+                                this.props.loading ? (<CircularProgress size={50} className={classes.Progress}/>) :
                                     reposSectionBody
                 }
             </div>
