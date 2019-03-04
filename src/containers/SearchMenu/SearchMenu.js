@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FormControl, Input, Select} from '@material-ui/core';
+import {FormControl, Input, InputLabel, Select} from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import * as searchActions from '../../store/actions/searchMenu';
 import * as repoActions from '../../store/actions/repoList';
@@ -49,14 +49,21 @@ class SearchMenu extends Component {
                         arrow_back_ios
                     </Icon>
                 </div>
-                <form>
+                <form style={{paddingBottom: '1em'}}>
                     <FormControl>
-                        <Input style={{width: '300px'}}
-                               placeholder='Repo name...'
+                        <InputLabel htmlFor='search-input'>
+                            Repository search...
+                        </InputLabel>
+                        <Input id='search-input'
+                               style={{width: '300px'}}
                                onChange={event => this.userInputHandler(event.target.value)}/>
                     </FormControl>
                     <FormControl>
-                        <Select value={this.props.selectValue}
+                        <InputLabel htmlFor='sort-by'>
+                            Sort by
+                        </InputLabel>
+                        <Select input={<Input id='sort-by'/>}
+                                value={this.props.selectValue}
                                 onChange={event => this.props.onSelectChange(event.target.value)}>
                             <MenuItem value={'score'}>Best match</MenuItem>
                             <MenuItem value={'stars'}>Stargazers</MenuItem>
